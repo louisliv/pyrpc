@@ -40,11 +40,13 @@ class MethodViewSet(viewsets.ViewSet):
             req_data["error"] = INVALID_PARAMS
             return Response(ErrorSerializer(req_data).data)
 
+        print("here")
         method_args = params.get('args', None)
         method_kwargs = params.get('kwargs', None)
+        print(params, method_args, method_kwargs)
 
-        if not method_args or method_kwargs:
-            req_data["error"] = INVALID_REQUEST
+        if not method_args and not method_kwargs:
+            req_data["error"] = INVALID_PARAMS
             return Response(ErrorSerializer(req_data).data)
 
         obj_method = getattr(obj, method_name, None)

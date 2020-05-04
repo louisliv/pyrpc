@@ -75,5 +75,5 @@ class ResultSerializer(serializers.Serializer):
     def get_jsonrpc(self, obj):
         return "2.0"
 
-    def get_error(self, obj):
+    def get_result(self, obj):
         return obj['result']

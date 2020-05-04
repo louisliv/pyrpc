@@ -25,9 +25,9 @@ def get_docstring_list(docstring):
     # Return a single string:
     return trimmed
 
-INVALID_REQUEST = { "code": 32600, "message": "Invalid Request" }
-PARSE_ERROR = { "code": 32700, "message": "Parse error" }
-INVALID_REQUEST = { "code": 32600, "message": "Invalid Request" }
-METHOD_NOT_FOUND = { "code": 32601, "message": "Method not found" }
-INVALID_PARAMS = { "code": 32602, "message": "Invalid params" }
-SERVER_ERROR = { "code": 32000, "message": "Server error" }
+INVALID_REQUEST = { "code": -32600, "message": "Invalid Request" }
+PARSE_ERROR = { "code": -32700, "message": "Parse error" }
+INVALID_REQUEST = { "code": -32600, "message": "Invalid Request" }
+METHOD_NOT_FOUND = { "code": -32601, "message": "Method not found" }
+INVALID_PARAMS = { "code": -32602, "message": "Invalid params" }
+SERVER_ERROR = { "code": -32000, "message": "Server error" }
