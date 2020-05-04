@@ -1,30 +1,5 @@
 from rest_framework import serializers
-import sys
-
-def get_docstring_list(docstring):
-    if not docstring:
-        return ''
-    # Convert tabs to spaces (following the normal Python rules)
-    # and split into a list of lines:
-    lines = docstring.expandtabs().splitlines()
-    # Determine minimum indentation (first line doesn't count):
-    indent = sys.maxsize
-    for line in lines[1:]:
-        stripped = line.lstrip()
-        if stripped:
-            indent = min(indent, len(line) - len(stripped))
-    # Remove indentation (first line is special):
-    trimmed = [lines[0].strip()]
-    if indent < sys.maxsize:
-        for line in lines[1:]:
-            trimmed.append(line[indent:].rstrip())
-    # Strip off trailing and leading blank lines:
-    while trimmed and not trimmed[-1]:
-        trimmed.pop()
-    while trimmed and not trimmed[0]:
-        trimmed.pop(0)
-    # Return a single string:
-    return trimmed
+from pyrpc.utils import get_docstring_list
 
 def is_description_line(line):
     return (line not in [''] 
@@ -36,6 +11,7 @@ def is_param_line(line):
 
 def is_return_line(line):
     return line.startswith('@returns')
+
 
 class MethodSerializer(serializers.Serializer):
     name = serializers.SerializerMethodField()
@@ -72,3 +48,32 @@ class MethodSerializer(serializers.Serializer):
         trimmed_docstring_list = [line for line in docstring_list
             if is_description_line(line)]
         return trimmed_docstring_list
+
+
+class ErrorSerializer(serializers.Serializer):
+    id = serializers.SerializerMethodField()
+    jsonrpc = serializers.SerializerMethodField()
+    error = serializers.SerializerMethodField()
+
+    def get_id(self, obj):
+        return obj['id']
+
+    def get_jsonrpc(self, obj):
+        return "2.0"
+
+    def get_error(self, obj):
+        return obj['error']
+
+class ResultSerializer(serializers.Serializer):
+    id = serializers.SerializerMethodField()
+    jsonrpc = serializers.SerializerMethodField()
+    result = serializers.SerializerMethodField()
+
+    def get_id(self, obj):
+        return obj['id']
+
+    def get_jsonrpc(self, obj):
+        return "2.0"
+
+    def get_error(self, obj):
+        return obj['result']
