@@ -1,2 +1,6 @@
-/__pycache__/*
-*.pyc
+*.py[co]
+.tox/
+__pycache__
+MANIFEST
+dist/
+.vscode
