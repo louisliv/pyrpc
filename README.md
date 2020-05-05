@@ -3,7 +3,7 @@
 Pyrpc is a Django app to handle JSON Remote Procedure Calls 
 using Django Rest Framework. 
 
-### Installaltion
+### Installation
 
 `pip install pyrpc-django`
 
