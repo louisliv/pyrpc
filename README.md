@@ -111,7 +111,7 @@ urlpatterns = [
 ### Returning a List of Methods
 
 1. Using the previous example, send a GET request to `127.0.0.1:8000/api/methods`.
-2. A list of methods and there descriptions shold be returned as follows:
+2. A list of methods and their descriptions shold be returned as follows:
 
 ```
 [

@@ -14,7 +14,7 @@ Quick Setup
 ^^^^^^^^^^^
 
 
-#. 
+1. 
    Add ``rest_framework`` ``pyrpc``\ to your INSTALLED_APPS setting like this:
 
    .. code-block::
@@ -25,7 +25,7 @@ Quick Setup
            'pyrpc',
        ]
 
-#. 
+2. 
    Add the ``safe_method`` decorator to methods in your app.
 
 .. code-block::
@@ -74,7 +74,7 @@ Quick Setup
            return operand1 * operand2
 
 
-#. Add pyrpc urls to ``urls.py``
+3. Add pyrpc urls to ``urls.py``
 
 .. code-block::
 
@@ -87,13 +87,13 @@ Quick Setup
    ]
 
 
-#. Start the server: ``python manage.py runserver``
+4. Start the server: ``python manage.py runserver``
 
 Sending Requests
 ^^^^^^^^^^^^^^^^
 
 
-#. Using the above example, POST the folowing JSON to ``127.0.0.1:8000/api/methods/``.
+1. Using the above example, POST the folowing JSON to ``127.0.0.1:8000/api/methods/``.
 
 .. code-block::
 
@@ -111,7 +111,7 @@ Sending Requests
    }
 
 
-#. A JSON response should be returned similar to the folowing:
+2. A JSON response should be returned similar to the folowing:
 
 .. code-block::
 
@@ -125,8 +125,8 @@ Returning a List of Methods
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-#. Using the previous example, send a GET request to ``127.0.0.1:8000/api/methods``.
-#. A list of methods and there descriptions shold be returned as follows:
+1. Using the previous example, send a GET request to ``127.0.0.1:8000/api/methods``.
+2. A list of methods and there descriptions shold be returned as follows:
 
 .. code-block::
 
