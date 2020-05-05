@@ -3,11 +3,11 @@
 Pyrpc is a Django app to handle JSON Remote Procedure Calls 
 using Django Rest Framework. 
 
-## Installaltion
+### Installaltion
 
 `pip install pyrpc-django`
 
-## Quick Setup
+### Quick Setup
 
 1. Add `rest_framework` `pyrpc`to your INSTALLED_APPS setting like this::
 ```
@@ -80,7 +80,7 @@ urlpatterns = [
 
 5. Start the server: `python manage.py runserver`
 
-## Sending Requests
+### Sending Requests
 
 1. Using the above example, POST the folowing JSON to `127.0.0.1:8000/api/methods/`.
 
@@ -109,7 +109,7 @@ urlpatterns = [
 }
 ```
 
-## Returning a List of Methods
+### Returning a List of Methods
 
 1. Using the previous example, send a GET request to `127.0.0.1:8000/api/methods`.
 2. A list of methods and there descriptions shold be returned as follows:
