@@ -5,3 +5,7 @@ MANIFEST
 dist/
 .vscode
 *.egg-info
+server
+library
+manage.py
+*.sqlite3
