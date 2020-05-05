@@ -14,7 +14,7 @@ Quick Setup
 -----------
 
 
-#. 
+1. 
    Add ``rest_framework`` ``pyrpc``\ to your INSTALLED_APPS setting like this:
 
    .. code-block::
@@ -25,7 +25,7 @@ Quick Setup
            'pyrpc',
        ]
 
-#. 
+2. 
    Add the ``safe_method`` decorator to class methods in your app.
 
 .. code-block::
@@ -59,7 +59,7 @@ Quick Setup
            return operand1 * operand2
 
 
-#. Create the view in ``<YOUR_APP>.views.py``. Make sure to add
+3. Create the view in ``<YOUR_APP>.views.py``. Make sure to add
 
 .. code-block::
 
@@ -72,7 +72,7 @@ Quick Setup
        method_class = Library
 
 
-#. Add your view to a ``djangorestframework`` router in ``urls``
+4. Add your view to a ``djangorestframework`` router in ``urls``
 
 .. code-block::
 
@@ -89,13 +89,13 @@ Quick Setup
    ]
 
 
-#. Start the server: ``python manage.py runserver``
+5. Start the server: ``python manage.py runserver``
 
 Sending Requests
 ----------------
 
 
-#. Using the above example, POST the folowing JSON to ``127.0.0.1:8000/api/methods/``.
+1. Using the above example, POST the folowing JSON to ``127.0.0.1:8000/api/methods/``.
 
 .. code-block::
 
@@ -113,7 +113,7 @@ Sending Requests
    }
 
 
-#. A JSON response should be returned similar to the folowing:
+2. A JSON response should be returned similar to the folowing:
 
 .. code-block::
 
