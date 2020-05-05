@@ -39,19 +39,19 @@ class PyrpcConfig(AppConfig):
         for module_name in settings.METHOD_MODULES:
 
             try:
-                rpc_module = import_module(module_name)
+                method_module = import_module(module_name)
 
             except ImportError:
-                msg = 'Unable to load module "{}" declared in settings.METHOD_MODULES. Please ensure ' \
-                      'it is available and doesn\'t contain any error'.format(module_name)
+                msg = 'Cannot find "{}" declared in ' \
+                    'settings.METHOD_MODULES.'.format(module_name)
                 warnings.warn(msg, category=Warning)
                 continue
 
-            for _, func in inspect.getmembers(rpc_module, inspect.isfunction):
+            for _, func in inspect.getmembers(method_module, inspect.isfunction):
                 if getattr(func, 'safe_method', None):
                     store.add(func)
 
-            for _, mod_class in inspect.getmembers(rpc_module, inspect.isclass):
+            for _, mod_class in inspect.getmembers(method_module, inspect.isclass):
                 for _, func in inspect.getmembers(mod_class, inspect.isfunction):
                     if getattr(func, 'safe_method', None):
                         store.add(func)
