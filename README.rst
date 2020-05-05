@@ -24,10 +24,11 @@ Quick Setup
     ]
 
   
-2. Add the `safe_method` decorator to class methods in your app.
+2.Add the `safe_method` decorator to class methods in your app.
 
 
-from pyrpc.decorators import safe_method
+.. codeblock:: python
+    from pyrpc.decorators import safe_method
 
     class Library():
         @safe_method
@@ -55,8 +56,9 @@ from pyrpc.decorators import safe_method
             return operand1 * operand2
 
 
-3. Create the view in `<YOUR_APP>.views.py`. Make sure to add
+3.Create the view in `<YOUR_APP>.views.py`. Make sure to add:
 
+.. codeblock:: python
     from django.shortcuts import render
     from pyrpc.views import MethodViewSet
     from <YOUR_APP>.methods import Library
@@ -68,6 +70,7 @@ from pyrpc.decorators import safe_method
 
 4. Add your view to a `djangorestframework` router in `urls`
 
+.. codeblock:: python
     from django.urls import path
     from django.conf.urls import include
     from rest_framework import routers
