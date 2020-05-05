@@ -7,7 +7,7 @@ from pyrpc.store import store
 from pyrpc.utils import (INVALID_REQUEST, 
     INVALID_PARAMS, METHOD_NOT_FOUND)
 
-# Create your views here.
+
 class MethodViewSet(viewsets.ViewSet):
     def list(self, request):
         object_methods = store.get_all_methods()
@@ -38,28 +38,41 @@ class MethodViewSet(viewsets.ViewSet):
             req_data["error"] = INVALID_REQUEST
             return Response(ErrorSerializer(req_data).data)
 
-        params = req_data.get('params', None)
+        obj_method = store.get_method(method_name)
 
-        if not params:
-            req_data["error"] = INVALID_PARAMS
+        if not obj_method:
+            req_data["error"] = METHOD_NOT_FOUND
             return Response(ErrorSerializer(req_data).data)
 
-        method_args = params.get('args', None)
-        method_kwargs = params.get('kwargs', None)
+        if obj_method.has_args:
+            params = req_data.get('params', None)
 
-        if not method_args and not method_kwargs:
-            req_data["error"] = INVALID_PARAMS
-            return Response(ErrorSerializer(req_data).data)
+            if not params:
+                req_data["error"] = INVALID_PARAMS
+                return Response(ErrorSerializer(req_data).data)
+
+            method_args = params.get('args', None)
+            method_kwargs = params.get('kwargs', None)
+
+            if not method_args and not method_kwargs:
+                req_data["error"] = INVALID_PARAMS
+                return Response(ErrorSerializer(req_data).data)
 
         try:
-            obj_method = store.get_method(method_name)
-
-            if obj_method:
-                req_data["result"] = obj_method(*method_args, **method_kwargs)
-                return Response(ResultSerializer(req_data).data)
+            if obj_method.has_args:
+                if not method_kwargs:
+                    req_data["result"] = obj_method(*method_args)
+                    return Response(ResultSerializer(req_data).data)
+                elif not method_args:
+                    req_data["result"] = obj_method(**method_kwargs)
+                    return Response(ResultSerializer(req_data).data)
+                else:
+                    req_data["result"] = obj_method(*method_args, **method_kwargs)
+                    return Response(ResultSerializer(req_data).data)
             else:
-                req_data["error"] = METHOD_NOT_FOUND
-                return Response(ErrorSerializer(req_data).data)
+                req_data["result"] = obj_method()
+                return Response(ResultSerializer(req_data).data)
+                
         except:
             req_data['error']: INVALID_REQUEST
             return Response(ResultSerializer(req_data).data)
