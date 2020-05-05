@@ -17,11 +17,26 @@ using Django Rest Framework.
         'pyrpc',
     ]
   ```
-  
-2. Add the `safe_method` decorator to class methods in your app.
+
+2. Add the `safe_method` decorator to methods in your app.
 
 ```
 from pyrpc.decorators import safe_method
+
+@safe_method
+def return_cat_string(*args, **kwargs):
+    """ 
+    Returns a concatenated string. 
+    Extended description of function. 
+
+    @param args: List of strings
+    @returns: Concatenated string
+    """
+
+    result = ''
+    for arg in args:
+        result = result + arg
+    return result
 
 
 class Library():
@@ -50,35 +65,19 @@ class Library():
         return operand1 * operand2
 ```
 
-3. Create the view in `<YOUR_APP>.views.py`. Make sure to add
-
-```
-from django.shortcuts import render
-from pyrpc.views import MethodViewSet
-from <YOUR_APP>.methods import Library
-
-
-class LibraryViewSet(MethodViewSet):
-    method_class = Library
-```
-
-4. Add your view to a `djangorestframework` router in `urls`
+3. Add pyrpc urls to `urls.py`
 
 ```
 from django.urls import path
 from django.conf.urls import include
-from rest_framework import routers
-from <YOUR_APP>.views import LibraryViewSet
-
-router = routers.DefaultRouter()
-router.register(r'methods', LibraryViewSet, basename="methods")
+from pyrpc.urls import urls as pyrpc_urls
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('api/', include(pyrpc_urls)),
 ]
 ```
 
-5. Start the server: `python manage.py runserver`
+4. Start the server: `python manage.py runserver`
 
 ### Sending Requests
 
