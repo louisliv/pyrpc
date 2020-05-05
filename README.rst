@@ -10,7 +10,7 @@ Detailed documentation is in the "docs" directory.
 Installaltion
 -------------
 
-    pip install pyrpc-django
+pip install pyrpc-django
 
 Quick Setup
 -----------
