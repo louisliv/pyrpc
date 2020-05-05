@@ -1,149 +1,160 @@
-=====
+
 pyrpc
-=====
+-----
 
 Pyrpc is a Django app to handle JSON Remote Procedure Calls 
 using Django Rest Framework. 
 
-Detailed documentation is in the "docs" directory.
-
 Installaltion
 -------------
 
-pip install pyrpc-django
+``pip install pyrpc-django``
 
 Quick Setup
 -----------
 
-1.Add `rest_framework` `pyrpc`to your INSTALLED_APPS setting like this::
 
-    INSTALLED_APPS = [
-        ...
-        'rest_framework',
-        'pyrpc',
-    ]
+#. 
+   Add ``rest_framework`` ``pyrpc``\ to your INSTALLED_APPS setting like this:
 
-  
-2.Add the `safe_method` decorator to class methods in your app.
+   .. code-block::
 
+       INSTALLED_APPS = [
+           ...
+           'rest_framework',
+           'pyrpc',
+       ]
 
-.. codeblock:: python
-    from pyrpc.decorators import safe_method
+#. 
+   Add the ``safe_method`` decorator to class methods in your app.
 
-    class Library():
-        @safe_method
-        def sum_two_numbers(self, operand1=0, operand2=0):
-            """ 
-            Returns the sum of two numbers. 
-            Extended description of function. 
+.. code-block::
 
-            @param operand1: Can be any float number.
-            @param operand2: Can be any float number.
-            @returns: operand1 + operand2. 
-            """
-            return operand1 + operand2
-            
-        @safe_method
-        def multiply_two_numbers(self, operand1=0, operand2=0):
-            """ 
-            Returns the product of two numbers. 
-            Extended description of function.
-
-            @param operand1: Can be any float number.
-            @param operand2: Can be any float number.
-            @returns: operand1 * operand2. 
-            """
-            return operand1 * operand2
+   from pyrpc.decorators import safe_method
 
 
-3.Create the view in `<YOUR_APP>.views.py`. Make sure to add:
+   class Library():
+       @safe_method
+       def sum_two_numbers(self, operand1=0, operand2=0):
+           """ 
+           Returns the sum of two numbers. 
+           Extended description of function. 
 
-.. codeblock:: python
-    from django.shortcuts import render
-    from pyrpc.views import MethodViewSet
-    from <YOUR_APP>.methods import Library
+           @param operand1: Can be any float number.
+           @param operand2: Can be any float number.
+           @returns: operand1 + operand2. 
+           """
+           return operand1 + operand2
 
+       @safe_method
+       def multiply_two_numbers(self, operand1=0, operand2=0):
+           """ 
+           Returns the product of two numbers. 
+           Extended description of function.
 
-    class LibraryViewSet(MethodViewSet):
-        method_class = Library
-
-
-4. Add your view to a `djangorestframework` router in `urls`
-
-.. codeblock:: python
-    from django.urls import path
-    from django.conf.urls import include
-    from rest_framework import routers
-    from <YOUR_APP>.views import LibraryViewSet
-
-    router = routers.DefaultRouter()
-    router.register(r'methods', LibraryViewSet, basename="methods")
-
-    urlpatterns = [
-        path('api/', include(router.urls)),
-    ]
+           @param operand1: Can be any float number.
+           @param operand2: Can be any float number.
+           @returns: operand1 * operand2. 
+           """
+           return operand1 * operand2
 
 
-5. Start the server: `python manage.py runserver`
+#. Create the view in ``<YOUR_APP>.views.py``. Make sure to add
+
+.. code-block::
+
+   from django.shortcuts import render
+   from pyrpc.views import MethodViewSet
+   from <YOUR_APP>.methods import Library
+
+
+   class LibraryViewSet(MethodViewSet):
+       method_class = Library
+
+
+#. Add your view to a ``djangorestframework`` router in ``urls``
+
+.. code-block::
+
+   from django.urls import path
+   from django.conf.urls import include
+   from rest_framework import routers
+   from <YOUR_APP>.views import LibraryViewSet
+
+   router = routers.DefaultRouter()
+   router.register(r'methods', LibraryViewSet, basename="methods")
+
+   urlpatterns = [
+       path('api/', include(router.urls)),
+   ]
+
+
+#. Start the server: ``python manage.py runserver``
 
 Sending Requests
 ----------------
 
-1. Using the above example, POST the folowing JSON to `127.0.0.1:8000/api/methods/`.
 
-    {
-        "id": 1,
-        "jsonrpc": "2.0",
-        "method": "sum_two_numbers",
-        "params": {
-            "args": [],
-            "kwargs": {
-                "operand1": 5,
-                "operand2": 6
-            }
-        }
-    }
+#. Using the above example, POST the folowing JSON to ``127.0.0.1:8000/api/methods/``.
+
+.. code-block::
+
+   {
+       "id": 1,
+       "jsonrpc": "2.0",
+       "method": "sum_two_numbers",
+       "params": {
+           "args": [],
+           "kwargs": {
+               "operand1": 5,
+               "operand2": 6
+           }
+       }
+   }
 
 
-2. A JSON response should be returned similar to the folowing:
+#. A JSON response should be returned similar to the folowing:
 
-    {
-        "id": 1,
-        "jsonrpc": "2.0",
-        "result": 11
-    }
+.. code-block::
 
+   {
+       "id": 1,
+       "jsonrpc": "2.0",
+       "result": 11
+   }
 
 Returning a List of Methods
 ---------------------------
 
-1. Using the previous example, send a GET request to `127.0.0.1:8000/api/methods`.
-2. A list of methods and there descriptions shold be returned as follows:
 
-    [
-        {
-            "name": "multiply_two_numbers",
-            "kwargs": {
-                "operand1": "Can be any float number.",
-                "operand2": "Can be any float number."
-            },
-            "description": [
-                "Returns the product of two numbers.",
-                "Extended description of function."
-            ],
-            "returns": "operand1 * operand2."
-        },
-        {
-            "name": "sum_two_numbers",
-            "kwargs": {
-                "operand1": "Can be any float number.",
-                "operand2": "Can be any float number."
-            },
-            "description": [
-                "Returns the sum of two numbers.",
-                "Extended description of function."
-            ],
-            "returns": "operand1 + operand2."
-        }
-    ]
+#. Using the previous example, send a GET request to ``127.0.0.1:8000/api/methods``.
+#. A list of methods and there descriptions shold be returned as follows:
 
+.. code-block::
+
+   [
+       {
+           "name": "multiply_two_numbers",
+           "kwargs": {
+               "operand1": "Can be any float number.",
+               "operand2": "Can be any float number."
+           },
+           "description": [
+               "Returns the product of two numbers.",
+               "Extended description of function."
+           ],
+           "returns": "operand1 * operand2."
+       },
+       {
+           "name": "sum_two_numbers",
+           "kwargs": {
+               "operand1": "Can be any float number.",
+               "operand2": "Can be any float number."
+           },
+           "description": [
+               "Returns the sum of two numbers.",
+               "Extended description of function."
+           ],
+           "returns": "operand1 + operand2."
+       }
+   ]
