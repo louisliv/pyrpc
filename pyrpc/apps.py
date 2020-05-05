@@ -54,4 +54,4 @@ class PyrpcConfig(AppConfig):
             for _, mod_class in inspect.getmembers(method_module, inspect.isclass):
                 for _, func in inspect.getmembers(mod_class, inspect.isfunction):
                     if getattr(func, 'safe_method', None):
-                        store.add(func)
+                        store.add(func, class_method = True, method_cls = mod_class)
