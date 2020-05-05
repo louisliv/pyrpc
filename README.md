@@ -1,11 +1,7 @@
 ## pyrpc
 
-<<<<<<< HEAD
 Pyrpc is a Django app to handle JSON Remote Procedure Calls 
 using Django Rest Framework. 
-=======
-Allows a Django server to consume and return JSON Remote Procedure Call requests and responses.
->>>>>>> 0a4e1820a589eb42f7eb17470d57b54acc42690c
 
 ## Installaltion
 
@@ -115,11 +111,7 @@ urlpatterns = [
 
 ## Returning a List of Methods
 
-<<<<<<< HEAD
 1. Using the previous example, send a GET request to `127.0.0.1:8000/api/methods`.
-=======
-1. Using the previos example, send a GET request to `127.0.0.1:8000/api/methods`.
->>>>>>> 0a4e1820a589eb42f7eb17470d57b54acc42690c
 2. A list of methods and there descriptions shold be returned as follows:
 
 ```
