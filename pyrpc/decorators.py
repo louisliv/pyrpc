@@ -1,8 +1,10 @@
-def safe_method(view):
+from pyrpc.store import store
+
+def safe_method(func):
     """ 
     Marks function as safe to use by the api 
     """
 
-    view.safe_method = True
+    func.safe_method = True
 
-    return view
+    return func

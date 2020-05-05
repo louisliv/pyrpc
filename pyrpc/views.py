@@ -3,33 +3,37 @@ from rest_framework import viewsets,status
 from rest_framework.response import Response
 from pyrpc.serializers import (MethodSerializer,
     ErrorSerializer, ResultSerializer)
+from pyrpc.store import store
 from pyrpc.utils import (INVALID_REQUEST, 
     INVALID_PARAMS, METHOD_NOT_FOUND)
 
 # Create your views here.
 class MethodViewSet(viewsets.ViewSet):
     def list(self, request):
-        obj = self.method_class()
-        object_methods = [getattr(obj, method_name, None) 
-            for method_name in dir(self.method_class)
-            if getattr(getattr(obj, method_name), 'safe_method', None)]
+        object_methods = store.get_all_methods()
 
         return Response(MethodSerializer(
             object_methods, many=True).data)
 
     def create(self, request):
         req_data = request.data
+        
+        if not req_data.get('id', None):
+            req_error = {
+                "id": '',
+                "jsonrpc": "2.0",
+                "error": INVALID_REQUEST
+            }
+            return Response(ErrorSerializer(req_error).data)
 
         jsonrpc = req_data.get('jsonrpc', None)
         
         if jsonrpc not in ["2.0"]:
             req_data["error"] = INVALID_REQUEST
             return Response(ErrorSerializer(req_data).data)
-        
-        obj = self.method_class()
 
         method_name = req_data.get('method', None)
-        
+            
         if not method_name:
             req_data["error"] = INVALID_REQUEST
             return Response(ErrorSerializer(req_data).data)
@@ -40,25 +44,34 @@ class MethodViewSet(viewsets.ViewSet):
             req_data["error"] = INVALID_PARAMS
             return Response(ErrorSerializer(req_data).data)
 
-        print("here")
         method_args = params.get('args', None)
         method_kwargs = params.get('kwargs', None)
-        print(params, method_args, method_kwargs)
 
         if not method_args and not method_kwargs:
             req_data["error"] = INVALID_PARAMS
             return Response(ErrorSerializer(req_data).data)
 
-        obj_method = getattr(obj, method_name, None)
+        try:
+            obj_method = store.get_method(method_name)
 
-        if obj_method and getattr(obj_method, 'safe_method', None):
-            req_data["result"] = obj_method(*method_args, **method_kwargs)
+            if obj_method:
+                req_data["result"] = obj_method(*method_args, **method_kwargs)
+                return Response(ResultSerializer(req_data).data)
+            else:
+                req_data["error"] = METHOD_NOT_FOUND
+                return Response(ErrorSerializer(req_data).data)
+        except:
+            req_data['error']: INVALID_REQUEST
             return Response(ResultSerializer(req_data).data)
-        else:
-            req_data["error"] = METHOD_NOT_FOUND
-            return Response(ErrorSerializer(req_data).data)
 
     def retrieve(self, request, pk=None):
-        obj = self.method_class()
-        obj_method = getattr(obj, pk, None)
-        return Response(MethodSerializer(obj_method).data)
+        obj_method = store.get_method(pk)
+
+        if obj_method:
+            return Response(MethodSerializer(obj_method).data)
+        else:
+            req_data = {
+                "id": 1
+            }
+            req_data["error"] = METHOD_NOT_FOUND
+            return Response(ErrorSerializer(req_data).data)
