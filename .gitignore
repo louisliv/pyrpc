@@ -7,5 +7,7 @@ dist/
 *.egg-info
 server
 library
-manage.py
 *.sqlite3
+.coverage
+htmlcov
+.pytest_cache

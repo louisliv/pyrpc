@@ -24,6 +24,9 @@ class _MethodStore(object):
                 "func": func
             }
 
+    def get_store(self):
+        return self.store
+
     def get_all_methods(self):
         values = []
         store_values = self.store.values()

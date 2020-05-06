@@ -1,0 +1,19 @@
+[run]
+source = .
+omit=
+    models.py
+    urls.py
+    admin.py
+    manage.py
+    setup.py
+    */tests/*
+    server/*
+    library/*
+    migrations/*
+    */__init__.py
+    __init__.py
+
+[report]
+fail_under = 100
+show_missing = True
+skip_covered = False

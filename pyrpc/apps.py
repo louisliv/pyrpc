@@ -10,7 +10,7 @@ from pyrpc.store import store
 from django.conf import settings
 
 @django.core.checks.register()
-def check_required_settings_defined(app_configs, **kwargs):
+def check_settings(app_configs, **kwargs):
     result = []
     if not settings.METHOD_MODULES:
         result.append(
