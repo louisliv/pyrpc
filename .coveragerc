@@ -5,9 +5,11 @@ omit=
     urls.py
     admin.py
     manage.py
+    server-manage.py
     setup.py
     */tests/*
     server/*
+    core/*
     library/*
     migrations/*
     */__init__.py

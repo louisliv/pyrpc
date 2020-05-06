@@ -1,7 +1,9 @@
 from pyrpc import apps
 from pyrpc.store import store
+from pyrpc.decorators import safe_method
 from django.test import TestCase
 from django.apps import apps as django_apps
+from tests.utils import PlainClass
 
 class AppTestCase(TestCase):
     def test_check_settings(self):
@@ -32,3 +34,12 @@ class AppTestCase(TestCase):
         mod_store.clear()
         with self.settings(METHOD_MODULES=fixture):
             assert(not app_config.init_store())
+
+        fixture = ['tests.utils']
+        mod_store.clear()
+
+        with self.settings(METHOD_MODULES=fixture):
+            safe_method(PlainClass.class_plain_method)
+            assert(not app_config.init_store())
+            delattr(PlainClass.class_plain_method, 'safe_method')
+        mod_store.clear()

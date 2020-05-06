@@ -7,6 +7,7 @@ dist/
 *.egg-info
 server
 library
+server-manage.py
 *.sqlite3
 .coverage
 htmlcov
