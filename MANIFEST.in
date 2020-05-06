@@ -3,3 +3,4 @@ include README.rst
 
 recursive-exclude server *
 recursive-exclude library *
+recursive-exclude core *
