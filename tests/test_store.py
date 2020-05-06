@@ -1,5 +1,5 @@
 from pyrpc import store
-from tests.utils import fixture
+from tests.utils import fixture, METHODS, METHODS_LIST
 from django.test import TestCase
 
 class AppTestCase(TestCase):
@@ -12,33 +12,9 @@ class AppTestCase(TestCase):
 
         assert(not result)
 
-        def has_method_args(arg_1):
-            pass
-
-        result = store.has_args(has_method_args)
-
-        assert(result)
-
-        def has_method_varargs(*args):
-            pass
-
-        result = store.has_args(has_method_varargs)
-
-        assert(result)
-
-        def has_method_varkw(**kwargs):
-            pass
-
-        result = store.has_args(has_method_varkw)
-
-        assert(result)
-
-        def has_all_args(arg_1, *args, **kwargs):
-            pass
-
-        result = store.has_args(has_all_args)
-
-        assert(result)
+        for method in METHODS_LIST[:-1]:
+            result = store.has_args(method)
+            assert(result)
 
     def test_store_methods(self):
         mod_store = store.store
